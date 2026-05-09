@@ -30,14 +30,20 @@
       services = {
         radarr = {
           enable = true;
+          user = config.homelab.user;
+          group = config.homelab.group;
           dataDir = "${config.homelab.appdataDir}/radarr";
         };
         sonarr = {
           enable = true;
+          user = config.homelab.user;
+          group = config.homelab.group;
           dataDir = "${config.homelab.appdataDir}/sonarr";
         };
         prowlarr = {
           enable = true;
+          user = config.homelab.user;
+          group = config.homelab.group;
           dataDir = "${config.homelab.appdataDir}/prowlarr";
         };
         flaresolverr = {
