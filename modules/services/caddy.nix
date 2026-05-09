@@ -4,7 +4,7 @@
     { config, lib, ... }:
     {
 
-      systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets.cloudflare-email.path;
+      systemd.services.caddy.serviceConfig.EnvironmentFile = config.sops.secrets.cloudflare_email.path;
 
       security.acme = {
         acceptTerms = true;
@@ -16,7 +16,7 @@
           dnsProvider = "cloudflare";
           dnsResolver = "1.1.1.1:53";
           dnsPropagationCheck = true;
-          environmentFile = config.sops.secrets.cloudflare-api.path;
+          environmentFile = config.sops.secrets.cloudflare_api.path;
         };
       };
 
