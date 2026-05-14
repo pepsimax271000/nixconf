@@ -4,13 +4,15 @@
 
 ## hosts
 
-| host  | description        |
-| ----- | ------------------ |
-| atlas | Ryzen Main Desktop |
-| beast | Dual CPU HP Z620   |
-| chell | ThinkCentre M93p   |
-| heavy | ThinkPad W520      |
-| vm    | generic vm host    |
+| host    | description        |
+| ------- | ------------------ |
+| atlas   | Ryzen Main Desktop |
+| beast   | Dual CPU HP Z620   |
+| chell   | ThinkCentre M93p   |
+| heavy   | ThinkPad W520      |
+| unit-00 | ThinkPad X230 #1   |
+| unit-01 | ThinkPad X230 #2   |
+| vm      | generic vm host    |
 
 ---
 
