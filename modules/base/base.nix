@@ -68,7 +68,21 @@
         };
       };
 
-      networking.networkmanager.enable = true;
+      services = {
+        resolved = {
+          enable = true;
+          settings.Resolve = {
+            domains = [
+              "tjd.lol"
+              "~tjd.lol"
+            ];
+          };
+        };
+      };
+      networking.networkmanager = {
+        enable = true;
+        dns = "systemd-resolved";
+      };
 
       time.timeZone = config.my.timezone;
       i18n.defaultLocale = config.my.locale;
