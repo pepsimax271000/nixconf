@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  config,
+  ...
+}:
 {
   flake.nixosModules.desktop =
     { pkgs, ... }:
@@ -54,6 +59,7 @@
           };
         };
       };
+
       services.hypridle = {
         enable = true;
         settings = {
@@ -62,7 +68,6 @@
             before_sleep_cmd = "loginctl lock-session";
             after_sleep_cmd = "hyprctl dispatch dpms on";
           };
-
           listener = [
             {
               timeout = 300;
@@ -85,6 +90,10 @@
           ];
         };
       };
+
+      # Use the HM module only for package/plugin wiring.
+      # The actual config is managed as a Lua file below.
+      stylix.targets.hyprland.enable = false;
       wayland.windowManager.hyprland = {
         enable = true;
         package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
@@ -93,112 +102,141 @@
         plugins = [
           inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
         ];
-        extraConfig = "
-          monitor=DP-1,3440x1440@165.0,1270x1080,1.0
-          monitor=DP-2,1920x1080@120.0,1963x0,1.0
-          monitor=DP-3,1920x1200@60.0,70x787,1.0
-          monitor=DP-3,transform,3
-          ";
         settings = {
-          monitor = ",preffered,auto,1";
-          "$mod" = "SUPER";
-          bindle = [
-            ", XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
-            ", XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
-            ", XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
-            ", XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
-          ];
-          bindl = [
-            ", XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput"
-            ", XF86AudioNext, exec, noctalia-shell ipc call media next"
-            ", XF86AudioPrev, exec, noctalia-shell ipc call media previous"
-            ", XF86AudioPlay, exec, noctalia-shell ipc call media play"
-            ", XF86AudioPause, exec, noctalia-shell ipc call media pause"
-          ];
-          bindm = [
-            "SUPER, mouse:272, movewindow"
-            "SUPER, mouse:273, resizewindow"
-          ];
-          bind = [
-            "$mod, Q, killactive"
-            "$mod, F, fullscreen"
-            "$mod Shift, Space, togglefloating"
-            "$mod, h, resizeactive, -100 0"
-            "$mod, j, movefocus, l"
-            "$mod, k, movefocus, r"
-            "$mod, l, resizeactive, 100 0"
-            "$mod Shift, h, movewindow, l"
-            "$mod Shift, j, movewindow, d"
-            "$mod Shift, k, movewindow, u"
-            "$mod Shift, l, movewindow, r"
-            "$mod Ctrl, j, movefocus, d"
-            "$mod Ctrl, k, movefocus, u"
-            "$mod, Return, exec, foot"
-            "$mod, Backspace, exec, noctalia-shell ipc call lockScreen lock"
-            "$mod, Q, killactive"
-            "$mod, W, exec, zen-beta"
-            "$mod, E, exec, noctalia-shell ipc call launcher emoji"
-            "$mod, R, exec, foot -e yazi"
-            "$mod, A, exec, noctalia-shell ipc call bar toggle"
-            "$mod, S, pin"
-            "$mod, D, exec, noctalia-shell ipc call launcher toggle"
-            "$mod, V, exec, noctalia-shell ipc call launcher clipboard"
-            "$mod, M, exec, foot -e jellyfin-tui"
-            "$mod, 1, split-workspace, 1"
-            "$mod, 2, split-workspace, 2"
-            "$mod, 3, split-workspace, 3"
-            "$mod, 4, split-workspace, 4"
-            "$mod, 5, split-workspace, 5"
-            "$mod, 6, split-workspace, 6"
-            "$mod, 7, split-workspace, 7"
-            "$mod, 8, split-workspace, 8"
-            "$mod, 9, split-workspace, 9"
-            "$mod Shift, 1, split-movetoworkspace, 1"
-            "$mod Shift, 2, split-movetoworkspace, 2"
-            "$mod Shift, 3, split-movetoworkspace, 3"
-            "$mod Shift, 4, split-movetoworkspace, 4"
-            "$mod Shift, 5, split-movetoworkspace, 5"
-            "$mod Shift, 6, split-movetoworkspace, 6"
-            "$mod Shift, 7, split-movetoworkspace, 7"
-            "$mod Shift, 8, split-movetoworkspace, 8"
-            "$mod Shift, 9, split-movetoworkspace, 9"
-          ];
-          windowrule = [
-            "match:class mpv.*, float 1"
-            "match:class waywall.*, float 1"
-            "match:class java.*, float 1"
-            "match:title Open File.*, float 1"
-            "match:title Select a File.*, float 1"
-            "match:title Choose Wallpaper.*, float 1"
-            "match:title Save As.*, float 1"
-            "match:title Library.*, float 1"
-            "match:title File Upload.*, float 1"
-          ];
+
+        };
+        # Disable HM's own config generation — we manage hyprland.lua ourselves.
+        systemd.enable = true;
+      };
+
+      # Hyprland 0.55+ uses hyprland.lua instead of hyprland.conf.
+      # HM's wayland.windowManager.hyprland.settings / extraConfig only generate
+      # the old hyprlang format, so we write the Lua config directly.
+      xdg.configFile."hypr/hyprland.lua".text = ''
+        -- ==================
+        -- MONITORS
+        -- ==================
+        hl.monitor({ output = "DP-1", mode = "3440x1440@165.0", position = "1270x1080", scale = 1.0 })
+        hl.monitor({ output = "DP-2", mode = "1920x1080@120.0", position = "1963x0",   scale = 1.0 })
+        hl.monitor({ output = "DP-3", mode = "1920x1200@60.0",  position = "70x787",   scale = 1.0, transform = 3 })
+        hl.monitor({ output = "LVDS-1", mode = "1920x1080@60.0",  position = "0x0",   scale = 1.0 })
+        hl.monitor({ output = "",     mode = "preferred",        position = "auto",     scale = "auto" })
+
+        -- ==================
+        -- GENERAL SETTINGS
+        -- ==================
+        hl.config({
+          plugin = {
+            split_monitor_workspaces = {
+              count                      = 9,
+              keep_focused               = 0,
+              enable_notifications       = 0,
+              enable_persistent_workspaces = 1,
+              enable_wrapping            = 1,
+              link_monitors              = 0,
+            },
+          },
           general = {
-            gaps_in = 0;
-            gaps_out = 0;
-            border_size = 3;
-            "col.active_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base09})";
-            "col.inactive_border" = lib.mkForce "rgb(${config.lib.stylix.colors.base04})";
-          };
-          animations.enabled = false;
+            gaps_in   = 0,
+            gaps_out  = 0,
+            border_size = 3,
+            ["col.active_border"]   = "rgb(${config.lib.stylix.colors.base09})",
+            ["col.inactive_border"] = "rgb(${config.lib.stylix.colors.base04})",
+          },
+          animations = {
+            enabled = false,
+          },
           decoration = {
             shadow = {
-              enabled = true;
-              offset = "5 5";
-              color = lib.mkForce "rgba(${config.lib.stylix.colors.base00}ff)";
-            };
-          };
+              enabled = true,
+              offset  = "5 5",
+              color   = "rgba(${config.lib.stylix.colors.base00}ff)",
+            },
+          },
           input = {
-            kb_layout = "gb";
-            kb_options = "ctrl:nocaps";
-            repeat_delay = "300";
-            repeat_rate = "50";
-          };
-          exec-once = [
-            "noctalia-shell"
-          ];
-        };
-      };
+            kb_layout    = "gb",
+            kb_options   = "ctrl:nocaps",
+            repeat_delay = 300,
+            repeat_rate  = 50,
+          },
+        })
+
+        -- ==================
+        -- AUTOSTART
+        -- ==================
+        hl.on("hyprland.start", function ()
+          hl.exec_cmd("noctalia-shell")
+        end)
+
+        -- ==================
+        -- WINDOW RULES
+        -- ==================
+        hl.window_rule({ match = { class = "mpv"     }, float = true })
+        hl.window_rule({ match = { class = "waywall" }, float = true })
+        hl.window_rule({ match = { class = "java"    }, float = true })
+        hl.window_rule({ match = { title = "Open File"       }, float = true })
+        hl.window_rule({ match = { title = "Select a File"   }, float = true })
+        hl.window_rule({ match = { title = "Choose Wallpaper" }, float = true })
+        hl.window_rule({ match = { title = "Save As"         }, float = true })
+        hl.window_rule({ match = { title = "Library"         }, float = true })
+        hl.window_rule({ match = { title = "File Upload"     }, float = true })
+
+        -- ==================
+        -- KEYBINDS
+        -- ==================
+        local mainMod = "SUPER"
+        local smw     = hl.plugin.split_monitor_workspaces
+
+        -- Mouse binds
+        hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+        hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+        -- Media / volume / brightness (repeat-on-hold)
+        hl.bind("XF86AudioRaiseVolume",    hl.dsp.exec_cmd("noctalia-shell ipc call volume increase"), { locked = true, repeating = true })
+        hl.bind("XF86AudioLowerVolume",    hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease"), { locked = true, repeating = true })
+        hl.bind("XF86MonBrightnessUp",     hl.dsp.exec_cmd("noctalia-shell ipc call brightness increase"), { locked = true, repeating = true })
+        hl.bind("XF86MonBrightnessDown",   hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease"), { locked = true, repeating = true })
+
+        -- Media keys (locked / works on lockscreen)
+        hl.bind("XF86AudioMute",  hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput"), { locked = true })
+        hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("noctalia-shell ipc call media next"), { locked = true })
+        hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("noctalia-shell ipc call media previous"), { locked = true })
+        hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("noctalia-shell ipc call media play"), { locked = true })
+        hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia-shell ipc call media pause"), { locked = true })
+
+        -- Window management
+        hl.bind(mainMod .. " + Q",           hl.dsp.window.kill())
+        hl.bind(mainMod .. " + F",           hl.dsp.window.fullscreen())
+        hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.window.float({ action = "toggle" }))
+        hl.bind(mainMod .. " + S",           hl.dsp.window.pin())
+        hl.bind(mainMod .. " + h",           hl.dsp.window.resize({ x = -100, y = 0 }))
+        hl.bind(mainMod .. " + l",           hl.dsp.window.resize({ x =  100, y = 0 }))
+        hl.bind(mainMod .. " + j",           hl.dsp.focus({ direction = "left" }))
+        hl.bind(mainMod .. " + k",           hl.dsp.focus({ direction = "right" }))
+        hl.bind(mainMod .. " + CTRL + j",      hl.dsp.focus({ direction = "down" }))
+        hl.bind(mainMod .. " + CTRL + k",      hl.dsp.focus({ direction = "up" }))
+        hl.bind(mainMod .. " + SHIFT + h",     hl.dsp.window.move({ direction = "left" }))
+        hl.bind(mainMod .. " + SHIFT + j",     hl.dsp.window.move({ direction = "down" }))
+        hl.bind(mainMod .. " + SHIFT + k",     hl.dsp.window.move({ direction = "up" }))
+        hl.bind(mainMod .. " + SHIFT + l",     hl.dsp.window.move({ direction = "right" }))
+
+        -- App launchers
+        hl.bind(mainMod .. " + Return",      hl.dsp.exec_cmd("foot"))
+        hl.bind(mainMod .. " + Backspace",   hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock"))
+        hl.bind(mainMod .. " + W",           hl.dsp.exec_cmd("zen-beta"))
+        hl.bind(mainMod .. " + E",           hl.dsp.exec_cmd("noctalia-shell ipc call launcher emoji"))
+        hl.bind(mainMod .. " + R",           hl.dsp.exec_cmd("foot -e yazi"))
+        hl.bind(mainMod .. " + A",           hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle"))
+        hl.bind(mainMod .. " + D",           hl.dsp.exec_cmd("noctalia-shell ipc call launcher toggle"))
+        hl.bind(mainMod .. " + V",           hl.dsp.exec_cmd("noctalia-shell ipc call launcher clipboard"))
+        hl.bind(mainMod .. " + M",           hl.dsp.exec_cmd("foot -e jellyfin-tui"))
+
+        -- Workspace switching + moving (split-monitor-workspaces)
+        for i = 1, 9 do
+          local key = tostring(i)
+          hl.bind(mainMod .. " + " .. key, function() return smw.workspace(i) end)
+          hl.bind(mainMod .. " + SHIFT + " .. key, function() return smw.move_to_workspace(i) end)
+        end
+      '';
     };
 }
