@@ -1,4 +1,8 @@
-{ self, inputs, ... }:
+{
+  self,
+  inputs,
+  ...
+}:
 {
   flake.nixosConfigurations.atlas = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
@@ -36,11 +40,7 @@
   flake.nixosModules.atlasConfiguration =
     { pkgs, ... }:
     {
-      home-manager.users.ye.wayland.windowManager.hyprland.settings.input = {
-        accel_profile = "flat";
-        force_no_accel = "false";
-      };
-
+      my.wallpaper = ../../../assets/wallpapers/nerv_catppuccin_uw.png;
       networking.hostName = "atlas";
 
       powerManagement.cpuFreqGovernor = "performance";

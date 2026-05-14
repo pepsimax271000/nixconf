@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ config, inputs, ... }:
 {
   flake.nixosModules.stylix =
     { pkgs, ... }:
@@ -9,7 +9,7 @@
 
       stylix = {
         enable = true;
-        image = ../../assets/wallpapers/nerv_catppuccin.png;
+        image = config.my.wallpaper;
         base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         polarity = "dark";
         #cursor = {

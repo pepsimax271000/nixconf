@@ -154,11 +154,16 @@
             },
           },
           input = {
+            force_no_accel = true,
             kb_layout    = "gb",
             kb_options   = "ctrl:nocaps",
             repeat_delay = 300,
             repeat_rate  = 50,
           },
+        })
+        hl.device({
+          name = "endgame-gear-endgame-gear-hs-dongle-keyboard",
+          accel_profile = "flat",
         })
 
         -- ==================

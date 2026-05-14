@@ -8,6 +8,10 @@
     timezone = mkOption { type = types.str; };
     locale = mkOption { type = types.str; };
     stateVersion = mkOption { type = types.str; };
+    wallpaper = mkOption {
+      type = types.path;
+      default = ../../assets/wallpapers/nix-black-4k.png;
+    };
   };
 
   config.my = {
