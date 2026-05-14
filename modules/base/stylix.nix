@@ -9,7 +9,7 @@
 
       stylix = {
         enable = true;
-        image = ../../assets/wallpapers/clouds-5.jpg;
+        image = ../../assets/wallpapers/nerv_catppuccin.png;
         base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         polarity = "dark";
         #cursor = {
