@@ -1,25 +1,43 @@
-{ ... }:
+{ config, ... }:
+let
+  service = "jellyfin";
+  hl = config.homelab;
+in
 {
-  flake.nixosModules.jellyfin =
-    { config, pkgs, ... }:
+  flake.nixosModules.${service} =
+    { pkgs, ... }:
     {
-      services.caddy.virtualHosts."jellyfin.${config.homelab.domain}".extraConfig = ''
+      services.caddy.virtualHosts."${service}.${hl.domain}".extraConfig = ''
         reverse_proxy "localhost:8096"
       '';
+
+      homepage.cfg = [
+        {
+          "Media" = [
+            {
+              "Jellyfin" = {
+                description = "Media Player";
+                href = "https://${service}.${hl.domain}";
+                icon = "sh-${service}.svg";
+              };
+            }
+          ];
+        }
+      ];
 
       networking.firewall = {
         allowedUDPPorts = [ 8096 ];
         allowedTCPPorts = [ 8096 ];
       };
       services = {
-        jellyfin = {
+        ${service} = {
           enable = true;
-          configDir = "${config.homelab.appdataDir}/jellyfin/config";
-          dataDir = "${config.homelab.appdataDir}/jellyfin";
-          cacheDir = "${config.homelab.appdataDir}/jellyfin/config/cache";
-          logDir = "${config.homelab.appdataDir}/jellyfin/config/log";
-          user = config.homelab.user;
-          group = config.homelab.group;
+          configDir = "${hl.appdataDir}/${service}/config";
+          dataDir = "${hl.appdataDir}/${service}";
+          cacheDir = "${hl.appdataDir}/${service}/config/cache";
+          logDir = "${hl.appdataDir}/${service}/config/log";
+          user = hl.user;
+          group = hl.group;
         };
       };
       hardware.graphics = {
@@ -33,11 +51,11 @@
         ];
       };
       systemd = {
-        services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+        services.${service}.environment.LIBVA_DRIVER_NAME = "iHD";
         tmpfiles.rules = [
-          "d ${config.homelab.appdataDir}/jellyfin 0775 ${config.homelab.user} ${config.homelab.group} -"
-          "d ${config.homelab.mediaDir}/movies 0775 ${config.homelab.user} ${config.homelab.group} -"
-          "d ${config.homelab.mediaDir}/shows 0775 ${config.homelab.user} ${config.homelab.group} -"
+          "d ${hl.appdataDir}/${service} 0775 ${hl.user} ${hl.group} -"
+          "d ${hl.mediaDir}/movies 0775 ${hl.user} ${hl.group} -"
+          "d ${hl.mediaDir}/shows 0775 ${hl.user} ${hl.group} -"
         ];
       };
       environment.sessionVariables = {

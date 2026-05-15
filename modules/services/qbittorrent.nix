@@ -1,33 +1,51 @@
-{ ... }:
+{ config, ... }:
+let
+  service = "qbittorrent";
+  hl = config.homelab;
+in
 {
-  flake.nixosModules.qbittorrent =
-    { config, pkgs, ... }:
+  flake.nixosModules.${service} =
+    { config, ... }:
     {
-      services.caddy.virtualHosts."qbittorrent.${config.homelab.domain}".extraConfig = ''
+      services.caddy.virtualHosts."${service}.${hl.domain}".extraConfig = ''
         reverse_proxy "localhost:8080"
       '';
+
+      homepage.cfg = [
+        {
+          "Media" = [
+            {
+              "qBittorrent" = {
+                description = "Torrent Client";
+                href = "https://${service}.${hl.domain}";
+                icon = "sh-${service}.svg";
+              };
+            }
+          ];
+        }
+      ];
 
       networking.firewall = {
         allowedUDPPorts = [ 8080 ];
         allowedTCPPorts = [ 8080 ];
       };
       services = {
-        qbittorrent = {
+        ${service} = {
           enable = true;
-          profileDir = "${config.homelab.appdataDir}/qbittorrent";
+          profileDir = "${hl.appdataDir}/${service}";
           serverConfig = {
             LegalNotice.Accepted = true;
             Preferences = {
               General.Locale = "en";
-              User = config.homelab.user;
-              Group = config.homelab.group;
+              User = hl.user;
+              Group = hl.group;
               Downloads = {
-                SavePath = "${config.homelab.mediaDir}/torrents";
+                SavePath = "${hl.mediaDir}/torrents";
               };
               WebUI = {
                 Username = "adam";
                 Password_PBKDF2 = "${config.sops.secrets.qbittorrent_password.path}";
-                ServerDomains = "${config.homelab.domain}";
+                ServerDomains = "${hl.domain}";
               };
             };
           };

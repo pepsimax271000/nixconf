@@ -1,22 +1,41 @@
-{ ... }:
+{ config, ... }:
+let
+  service = "immich";
+  hl = config.homelab;
+in
 {
-  flake.nixosModules.immich =
-    { config, pkgs, ... }:
+  flake.nixosModules.${service} =
+    { pkgs, ... }:
     {
-      services.caddy.virtualHosts."immich.${config.homelab.domain}".extraConfig = ''
+      services.caddy.virtualHosts."${service}.${hl.domain}".extraConfig = ''
         reverse_proxy "localhost:2283"
       '';
+
+      homepage.cfg = [
+        {
+          "Cloud" = [
+            {
+              "Immich" = {
+                description = "Photo Library";
+                href = "https://${service}.${hl.domain}";
+                icon = "sh-${service}.svg";
+              };
+            }
+          ];
+        }
+      ];
 
       networking.firewall = {
         allowedUDPPorts = [ 2283 ];
         allowedTCPPorts = [ 2283 ];
       };
+
       services = {
-        immich = {
+        ${service} = {
           enable = true;
-          user = config.homelab.user;
-          group = config.homelab.group;
-          mediaLocation = "${config.homelab.mediaDir}/immich/photos";
+          user = hl.user;
+          group = hl.group;
+          mediaLocation = "${hl.mediaDir}/${service}/photos";
           accelerationDevices = null;
         };
       };
