@@ -1,6 +1,7 @@
-{ config, ... }:
+{ ... }:
 let
   service = "homeassistant";
+  serviceAlt = "home-assistant";
 in
 {
   flake.nixosModules.${service} =
@@ -17,9 +18,9 @@ in
       virtualisation.oci-containers = {
         backend = "podman";
         containers.homeassistant = {
-          volumes = [ "home-assistant:/config" ];
+          volumes = [ "${serviceAlt}:/config" ];
           environment.TZ = "Europe/Belfast";
-          image = "ghcr.io/home-assistant/home-assistant:stable";
+          image = "ghcr.io/${serviceAlt}/${serviceAlt}:stable";
           extraOptions = [
             "--network=host"
             # "--device=/dev/ttyACM0:/dev/ttyACM0" ### it *needs* the /dev/ttyACM0 device plugged in or else it will fail to start homeassistant
@@ -33,17 +34,13 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Cloud = [
         {
-          "Cloud" = [
-            {
-              "Home Assistant" = {
-                description = "Home Automation";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Home Assistant" = {
+            description = "Home Automation";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${serviceAlt}.svg";
+          };
         }
       ];
     };

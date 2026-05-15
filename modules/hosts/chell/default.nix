@@ -7,7 +7,8 @@
 {
   flake.nixosConfigurations.chell = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
-      dns
+      adguardhome
+      unbound
       homeassistant
       homepage
       unifi

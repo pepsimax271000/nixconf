@@ -43,19 +43,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Media = [
         {
-          "Media" = [
-            {
-              "qBittorrent" = {
-                description = "Torrent Client";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "qBittorrent" = {
+            description = "Torrent Client";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

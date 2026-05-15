@@ -1,56 +1,29 @@
 { ... }:
+let
+  service = "adguardhome";
+  serviceAlt = "adguard-home";
+in
 {
-  flake.nixosModules.dns =
+  flake.nixosModules.${service} =
     { config, ... }:
+    let
+      hl = config.homelab;
+    in
     {
       networking.firewall = {
         allowedUDPPorts = [
-          5335
           53
         ];
         allowedTCPPorts = [
-          5335
           53
         ];
       };
 
       services = {
-        unbound = {
-          enable = true;
-          settings = {
-            server = {
-              interface = [
-                "127.0.0.1"
-                "::1"
-              ];
-              port = 5335;
-              access-control = [
-                "127.0.0.0/8 allow"
-                "::1/128 allow"
-              ];
-              local-zone = "\"config.homelab.domain.\" static";
-
-              do-ip4 = true;
-              do-ip6 = false;
-              prefetch = true;
-              num-threads = 2;
-            };
-            forward-zone = [
-              {
-                name = ".";
-                forward-addr = [
-                  "1.1.1.1@853#cloudflare-dns.com"
-                  "1.0.0.1@853#cloudflare-dns.com"
-                ];
-                forward-tls-upstream = true;
-              }
-            ];
-          };
-        };
-        adguardhome = {
+        ${service} = {
           enable = true;
           openFirewall = true;
-          port = 3001;
+          port = 3000;
           settings = {
             dns = {
               bind_hosts = [ "0.0.0.0" ];
@@ -66,7 +39,7 @@
                 "127.0.0.1:5335"
               ];
               upstream_mode = "parallel";
-              local_domain_name = "${config.homelab.domain}";
+              local_domain_name = "${hl.domain}";
               cache_enabled = true;
               cache_ttl_min = 3600;
               cache_ttl_max = 86400;
@@ -139,10 +112,21 @@
           };
         };
       };
+
       services.caddy.virtualHosts = {
-        "adguard.${config.homelab.domain}".extraConfig = ''
-          reverse_proxy "localhost:3001"
+        "${service}.${hl.domain}".extraConfig = ''
+          reverse_proxy "localhost:3000"
         '';
       };
+
+      homelab.homepage.cfg.Cloud = [
+        {
+          "AdGuard Home" = {
+            description = "DNS Ad Blocker";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${serviceAlt}.svg";
+          };
+        }
+      ];
     };
 }

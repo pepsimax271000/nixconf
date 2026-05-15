@@ -75,19 +75,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Media = [
         {
-          "Media" = [
-            {
-              "Jellyfin" = {
-                description = "Media Player";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Jellyfin" = {
+            description = "Media Player";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

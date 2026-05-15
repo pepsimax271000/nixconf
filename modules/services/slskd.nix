@@ -52,19 +52,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Media = [
         {
-          "Media" = [
-            {
-              "Slskd" = {
-                description = "SoulSeek WebUI";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Slskd" = {
+            description = "SoulSeek WebUI";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

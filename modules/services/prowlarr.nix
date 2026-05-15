@@ -33,19 +33,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Media = [
         {
-          "Media" = [
-            {
-              "Prowlarr" = {
-                description = "Torrent Site Indexer";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Prowlarr" = {
+            description = "Torrent Site Indexer";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

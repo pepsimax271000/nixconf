@@ -26,19 +26,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Cloud = [
         {
-          "Cloud" = [
-            {
-              "Unifi" = {
-                description = "Ubiuqiti Controller";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Unifi" = {
+            description = "Unifi Controller";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-ubiquiti-${service}.svg";
+          };
         }
       ];
-
     };
 }

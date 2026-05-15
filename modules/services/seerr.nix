@@ -31,19 +31,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Media = [
         {
-          "Media" = [
-            {
-              "Seerr" = {
-                description = "Easy *arr UI";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Seerr" = {
+            description = "Easy *arr UI";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

@@ -53,8 +53,8 @@
           default = "caddy";
         };
         homepage.cfg = lib.mkOption {
-          type = lib.types.listOf lib.types.attrs;
-          default = [ ];
+          type = lib.types.attrsOf (lib.types.listOf lib.types.attrs);
+          default = { };
         };
       };
     };

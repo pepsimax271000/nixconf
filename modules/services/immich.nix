@@ -37,19 +37,14 @@ in
         '';
       };
 
-      hl.homepage.cfg = [
+      homelab.homepage.cfg.Cloud = [
         {
-          "Cloud" = [
-            {
-              "Immich" = {
-                description = "Photo Library";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
+          "Immich" = {
+            description = "Photo Library";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
         }
       ];
-
     };
 }

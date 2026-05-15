@@ -19,24 +19,20 @@ in
         };
       };
 
-      hl.homepage.cfg = [
-        {
-          "Cloud" = [
-            {
-              "Vaultwarden" = {
-                description = "Password Manager";
-                href = "https://${service}.${hl.domain}";
-                icon = "sh-${service}.svg";
-              };
-            }
-          ];
-        }
-      ];
-
       services.caddy.virtualHosts = {
         "${service}.${hl.domain}".extraConfig = ''
           reverse_proxy "localhost:8000"
         '';
       };
+
+      homelab.homepage.cfg.Cloud = [
+        {
+          "Vaultwarden" = {
+            description = "Password Manager";
+            href = "https://${service}.${hl.domain}";
+            icon = "sh-${service}.svg";
+          };
+        }
+      ];
     };
 }
