@@ -4,6 +4,10 @@
     { config, lib, ... }:
     {
       options.homelab = {
+        gladosIP = lib.mkOption {
+          type = lib.types.str;
+          default = "10.1.10.3";
+        };
         mounts.slow = lib.mkOption {
           default = "/mnt/mergerfs_slow";
           type = lib.types.path;
