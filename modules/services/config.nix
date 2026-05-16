@@ -44,13 +44,13 @@
           type = lib.types.str;
           default = "share";
         };
-        caddy.user = lib.mkOption {
+        acme.user = lib.mkOption {
           type = lib.types.str;
-          default = "caddy";
+          default = "acme";
         };
-        caddy.group = lib.mkOption {
+        acme.group = lib.mkOption {
           type = lib.types.str;
-          default = "caddy";
+          default = "acme";
         };
         homepage.cfg = lib.mkOption {
           type = lib.types.attrsOf (lib.types.listOf lib.types.attrs);

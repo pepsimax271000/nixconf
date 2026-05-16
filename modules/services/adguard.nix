@@ -114,9 +114,12 @@ in
       };
 
       services.caddy.virtualHosts = {
-        "${service}.${hl.domain}".extraConfig = ''
-          reverse_proxy "localhost:3000"
-        '';
+        "${service}.${hl.domain}" = {
+          useACMEHost = "${hl.domain}";
+          extraConfig = ''
+            reverse_proxy "localhost:3000"
+          '';
+        };
       };
 
       homelab.homepage.cfg.Cloud = [

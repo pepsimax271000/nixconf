@@ -8,6 +8,7 @@
   flake.nixosConfigurations.chell = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       adguardhome
+      caddy
       unbound
       homeassistant
       homepage

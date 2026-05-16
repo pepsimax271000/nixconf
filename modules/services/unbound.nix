@@ -29,7 +29,7 @@
                 "127.0.0.0/8 allow"
                 "::1/128 allow"
               ];
-              local-zone = "\"${hl.domain}.\" static";
+              local-zone = "\"${hl.domain}.\" transparent";
 
               do-ip4 = true;
               do-ip6 = false;

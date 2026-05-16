@@ -15,8 +15,8 @@ in
       services = {
         ${service} = {
           enable = true;
-          user = "hl.caddy.user";
-          group = "hl.caddy.group";
+          user = "${hl.acme.user}";
+          group = "${hl.acme.group}";
         };
       };
 
@@ -24,7 +24,7 @@ in
         acceptTerms = true;
         defaults.email = lib.mkDefault "";
         certs."${hl.domain}" = {
-          group = "hl.caddy.group";
+          group = "${hl.acme.group}";
           domain = "${hl.domain}";
           extraDomainNames = [ "*.${hl.domain}" ];
           dnsProvider = "cloudflare";
