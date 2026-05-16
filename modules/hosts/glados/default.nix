@@ -7,8 +7,15 @@
   flake.nixosConfigurations.glados = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       flaresolverr
-      servicesConfig
+      jellyfin
+      prowlarr
+      qbittorrent
+      radarr
+      sonarr
+
       gladosDrives
+      shareUser
+      servicesConfig
 
       base
       git

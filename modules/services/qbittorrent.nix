@@ -17,6 +17,8 @@ in
       services = {
         ${service} = {
           enable = true;
+          user = "${hl.user}";
+          group = "${hl.group}";
           profileDir = "${hl.appdataDir}/${service}";
           serverConfig = {
             LegalNotice.Accepted = true;
