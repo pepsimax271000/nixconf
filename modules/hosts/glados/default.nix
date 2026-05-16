@@ -6,14 +6,11 @@
 {
   flake.nixosConfigurations.glados = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
-
       servicesConfig
-
       gladosDrives
 
       base
       git
-      nfs
       shell
       stylix
       gladosConfiguration

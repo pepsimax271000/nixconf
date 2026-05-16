@@ -1,14 +1,9 @@
 {
-  config,
-  pkgs,
   ...
 }:
-let
-  hl = config.homelab;
-in
 {
   flake.nixosModules.gladosDrives =
-    { ... }:
+    { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [ mergerfs ];
 
@@ -33,7 +28,7 @@ in
           fsType = "xfs";
         };
 
-        "${hl.mounts.slow}" = {
+        "/mnt/slow" = {
           device = "/mnt/disk*";
           fsType = "fuse.mergerfs";
           options = [
@@ -49,8 +44,8 @@ in
           ];
         };
 
-        "${hl.mounts.cache}" = {
-          device = "/mnt/cache*";
+        "/mnt/cache" = {
+          device = "/mnt/cache1";
           fsType = "fuse.mergerfs";
           options = [
             "category.create=mfs"
@@ -65,8 +60,8 @@ in
           ];
         };
 
-        "${hl.mounts.merged}" = {
-          device = "/mnt/disk*";
+        "/mnt/user" = {
+          device = "/mnt/cache:/mnt/slow";
           fsType = "fuse.mergerfs";
           options = [
             "category.create=epff"

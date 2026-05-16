@@ -5,7 +5,7 @@
       disk = {
         main = {
           type = "disk";
-          device = "/dev/nvme0n1";
+          device = "/dev/disk/by-id/nvme-Patriot_M.2_P300_256GB_P300IBBB23122503548";
           content = {
             type = "gpt";
             partitions = {
