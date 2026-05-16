@@ -70,8 +70,8 @@ in
       ];
 
       homelab.caddy.virtualHosts = {
+        useACMEHost = "${hl.domain}";
         "${service}.${hl.domain}".extraConfig = ''
-          useACMEHost = "${hl.domain}"
           reverse_proxy "${hl.gladosIP}:8096"
         '';
       };
