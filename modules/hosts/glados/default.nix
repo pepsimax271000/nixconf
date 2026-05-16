@@ -6,6 +6,7 @@
 {
   flake.nixosConfigurations.glados = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
+      flaresolverr
       servicesConfig
       gladosDrives
 

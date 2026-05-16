@@ -1,6 +1,9 @@
 { ... }:
+let
+  service = "flaresolverr";
+in
 {
-  flake.nixosModules.prowlarr =
+  flake.nixosModules.${service} =
     { ... }:
     {
       networking.firewall = {
@@ -12,7 +15,7 @@
         ];
       };
       services = {
-        flaresolverr = {
+        ${service} = {
           enable = true;
         };
       };
