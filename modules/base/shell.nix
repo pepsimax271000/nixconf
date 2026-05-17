@@ -141,13 +141,13 @@
 
             # Nixos related
             "nr" = "nixos-rebuild";
-            "nuc" = "nh os switch ~/nix-config -u && nh clean all";
-            "nru" = "z ~/nix-config && doas nixos-rebuild switch --flake . --upgrade";
+            "nuc" = "nh os switch ~/nixconf -u && nh clean all";
+            "nru" = "z ~/nixconf && doas nixos-rebuild switch --flake . --upgrade";
             "nsp" = "nix-shell -p";
             "scg" = "doas nix-collect-garbage -d";
             "ucg" = "nix-collect-garbage -d";
-            "cfg" = "z /home/${config.my.username}/nix-config/";
-            "rn" = "nh os switch ~/nix-config";
+            "cfg" = "z /home/${config.my.username}/nixconf/";
+            "rn" = "nh os switch ~/nixconf";
           };
         };
       };

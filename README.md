@@ -1,4 +1,4 @@
-# nix-config-den
+# nixconf
 
 # my nixos config using flake-parts and the dendritic pattern
 
@@ -9,6 +9,7 @@
 | atlas   | Ryzen Main Desktop |
 | beast   | Dual CPU HP Z620   |
 | chell   | ThinkCentre M93p   |
+| glados  | i5-12500 NAS       |
 | heavy   | ThinkPad W520      |
 | unit-00 | ThinkPad X230 #1   |
 | unit-01 | ThinkPad X230 #2   |

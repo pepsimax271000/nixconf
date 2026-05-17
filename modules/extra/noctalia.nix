@@ -105,7 +105,7 @@
             enabled = false;
           };
           wallpaper = {
-            directory = "/home/ye/nix-config/assets/wallpapers";
+            directory = "/home/ye/nixconf/assets/wallpapers";
           };
           appLauncher = {
             terminalCommand = "foot -e";
