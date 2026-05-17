@@ -1,7 +1,5 @@
 {
   inputs,
-  lib,
-  config,
   ...
 }:
 {
@@ -122,6 +120,10 @@
         hl.monitor({ output = "LVDS-1", mode = "1920x1080@60.0",  position = "0x0",   scale = 1.0 })
         hl.monitor({ output = "",     mode = "preferred",        position = "auto",     scale = "auto" })
 
+        for i = 1, 9 do
+            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1", layout = "master" })
+        end
+
         -- ==================
         -- GENERAL SETTINGS
         -- ==================
@@ -136,7 +138,13 @@
               link_monitors              = 0,
             },
           },
+          master = {
+            orientation = center,
+            slave_count_for_center_master = 0,
+            mfact = 0.4,
+          },
           general = {
+            layout = "dwindle";
             gaps_in   = 0,
             gaps_out  = 0,
             border_size = 3,
@@ -207,12 +215,12 @@
         hl.bind("XF86AudioPause", hl.dsp.exec_cmd("noctalia-shell ipc call media pause"), { locked = true })
 
         -- Window management
-        hl.bind(mainMod .. " + Q",           hl.dsp.window.kill())
+        hl.bind(mainMod .. " + Q",           hl.dsp.window.close())
         hl.bind(mainMod .. " + F",           hl.dsp.window.fullscreen())
-        hl.bind(mainMod .. " + SHIFT + S",     hl.dsp.window.float({ action = "toggle" }))
+        hl.bind(mainMod .. " + SHIFT + Space",     hl.dsp.window.float({ action = "toggle" }))
         hl.bind(mainMod .. " + S",           hl.dsp.window.pin())
-        hl.bind(mainMod .. " + h",           hl.dsp.window.resize({ x = -100, y = 0 }))
-        hl.bind(mainMod .. " + l",           hl.dsp.window.resize({ x =  100, y = 0 }))
+        hl.bind(mainMod .. " + h",           hl.dsp.window.resize({ x = -100, y = 0, relative=true }))
+        hl.bind(mainMod .. " + l",           hl.dsp.window.resize({ x = 100, y = 0, relative=true }))
         hl.bind(mainMod .. " + j",           hl.dsp.focus({ direction = "left" }))
         hl.bind(mainMod .. " + k",           hl.dsp.focus({ direction = "right" }))
         hl.bind(mainMod .. " + CTRL + j",      hl.dsp.focus({ direction = "down" }))
