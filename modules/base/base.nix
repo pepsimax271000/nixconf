@@ -53,13 +53,20 @@
       sops = {
         defaultSopsFile = ../../secrets/secrets.yaml;
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-        secrets.password = { };
-        secrets.cloudflare_api = { };
-        secrets.cloudflare_email = { };
-        secrets.qbittorrent_password = {
-          owner = config.homelab.user;
+        secrets.password = {
         };
-        secrets.slskd = { };
+        secrets.cloudflare_api = {
+          sopsFile = ../../secrets/homelab.yaml;
+        };
+        secrets.cloudflare_email = {
+          sopsFile = ../../secrets/homelab.yaml;
+        };
+        secrets.qbittorrent_password = {
+          sopsFile = ../../secrets/homelab.yaml;
+        };
+        secrets.slskd = {
+          sopsFile = ../../secrets/homelab.yaml;
+        };
         secrets.password.neededForUsers = true;
       };
 

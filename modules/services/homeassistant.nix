@@ -19,7 +19,7 @@ in
         backend = "podman";
         containers.homeassistant = {
           volumes = [ "${serviceAlt}:/config" ];
-          environment.TZ = "Europe/Belfast";
+          environment.TZ = "${config.my.timezone}";
           image = "ghcr.io/${serviceAlt}/${serviceAlt}:stable";
           extraOptions = [
             "--network=host"
