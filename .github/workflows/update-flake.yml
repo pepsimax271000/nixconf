@@ -22,6 +22,6 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
-          target-branch: develop # Opens the PR against develop, not main
+          target-branch: master
           pr-title: "chore: update flake.lock"
           pr-labels: "dependencies, automated"
