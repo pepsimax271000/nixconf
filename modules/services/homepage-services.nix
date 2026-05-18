@@ -69,6 +69,13 @@
         ];
         Network = [
           {
+            "OPNSense" = {
+              description = "Router";
+              href = "https://opnsense.${hl.domain}";
+              icon = "sh-opnsense.svg";
+            };
+          }
+          {
             "Proxmox" = {
               description = "Proxmox";
               href = "https://proxmox.${hl.domain}";
