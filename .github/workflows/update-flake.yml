@@ -1,29 +1,27 @@
-name: "Flake.lock: update Nix dependencies"
-
+name: "Update Flake Lockfile"
 on:
-  workflow_dispatch: # allows manual triggering
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+    - cron: "0 4 * * 5" # Runs every Friday at 04:00 UTC
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  nix-flake-update:
-    permissions:
-      contents: write
-      id-token: write
-      issues: write
-      pull-requests: write
+  update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/determinate-nix-action@v3
-      - uses: DeterminateSystems/update-flake-lock@main
+      - uses: actions/checkout@v4
         with:
-          pr-title: "Update Nix flake inputs" # Title of PR to be created
-          pr-labels: |                  # Labels to be set on the PR
-            dependencies
-            automated
-      - name: Auto-merge PR
-        if: steps.update.outputs.pull-request-number != ''
-        run: gh pr merge --auto --squash "${{ steps.update.outputs.pull-request-number }}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ref: develop # Forces the action to use the develop branch
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          flakehub: false
+
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          target-branch: develop # Opens the PR against develop, not main
+          pr-title: "chore: update flake.lock"
+          pr-labels: "dependencies, automated"
