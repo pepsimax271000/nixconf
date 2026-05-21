@@ -14,10 +14,11 @@
           nixpkgs.config.allowUnfree = true;
           security.sudo.wheelNeedsPassword = false;
           environment.systemPackages = with pkgs; [
-            git
-            neovim
-            gptfdisk
             fastfetch
+            git
+            gptfdisk
+            neovim
+            rsync
           ];
 
           users.users.root.initialPassword = "nixos";

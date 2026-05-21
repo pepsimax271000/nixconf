@@ -27,7 +27,9 @@ in
           host = "0.0.0.0";
           openFirewall = true;
           mediaLocation = "${hl.mediaDir}/${service}/photos";
-          accelerationDevices = null;
+          accelerationDevices = [
+            "/dev/dri/renderD128"
+          ];
         };
       };
 
