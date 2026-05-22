@@ -13,10 +13,10 @@ in
     {
       networking.firewall = {
         allowedUDPPorts = [
-          "${port}"
+          port
         ];
         allowedTCPPorts = [
-          "${port}"
+          port
         ];
       };
 
@@ -37,7 +37,7 @@ in
         "${service}.${hl.domain}" = {
           useACMEHost = "${hl.domain}";
           extraConfig = ''
-            reverse_proxy "localhost:"${port}""
+            reverse_proxy "localhost:"${toString port}""
           '';
         };
       };
