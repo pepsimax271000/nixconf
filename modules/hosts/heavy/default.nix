@@ -18,6 +18,7 @@
           browser
           packages
           desktop
+          mangowm
           media
           neovim
           noctalia
