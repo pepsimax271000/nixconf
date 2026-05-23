@@ -1,47 +1,100 @@
 { inputs, ... }:
 {
   flake.homeModules.noctalia =
-    { config, lib, ... }:
+    { config, ... }:
+    let
+      wallpaperDir = "${config.home.homeDirectory}/nixconf/assets/wallpapers";
+    in
     {
       imports = [
         inputs.noctalia.homeModules.default
       ];
-      programs.noctalia-shell = {
+      programs.noctalia = {
         enable = true;
         settings = {
-          # configure noctalia here
-          settingsVersion = "41";
+          shell = {
+            font_family = "JetBrainsMono NF";
+          };
+          ui = {
+            fontDefault = "JetBrainsMono Nerd Font";
+            fontFixed = "JetBrainsMono Nerd Font";
+          };
+          appLauncher = {
+            enableClipboardHistory = true;
+            terminalCommand = "foot -e";
+          };
+          nightLight = {
+            autoSchedule = true;
+            enabled = true;
+            manualSUnrise = "08:00";
+            manualSunset = "23:00";
+            ngihtTemp = "3500";
+          };
+          wallpaper = {
+            directory = "${wallpaperDir}";
+            default = {
+              path = "${wallpaperDir}";
+            };
+            monitors.DP-1 = {
+              path = "${wallpaperDir}/nerv_catppuccin_uw.png";
+            };
+            monitors.DP-2 = {
+              path = "${wallpaperDir}/angel.jpg";
+            };
+            monitors.LVDS-1 = {
+              path = "${wallpaperDir}/rei-ii.jpg";
+            };
+          };
           bar = {
             density = "mini";
-            position = "right";
             exclusive = true;
             outerCorners = false;
+            showCapsule = false;
             monitors = [
               "DP-1"
               "DP-2"
-              "HDMI-A-1"
+              "DP-3"
+              "eDP-1"
               "LVDS-1"
+              "HDMI-A-1"
             ];
-            showCapsule = false;
-            widgets = {
+            bar = {
+              capsule_radius = "3.0";
+              font_weight = 700;
+              margin_ends = 0;
+              margin_edge = 0;
+              position = "right";
+              radius = 0;
+              widget_spacing = 20;
+              start = [
+                "date"
+                "clock"
+                "media"
+                "bongocat"
+              ];
+              center = [
+                "workspaces"
+              ];
+              end = [
+                "tray"
+                "bluetooth"
+                "volume"
+                "brightness"
+                "network"
+                "battery"
+                "control-center"
+              ];
               left = [
                 {
                   id = "ControlCenter";
                   useDistroLogo = true;
                 }
               ];
-              center = [
-                {
-                  hideUnoccupied = false;
-                  id = "Workspace";
-                  labelMode = "none";
-                }
-              ];
               right = [
                 {
                   id = "Tray";
-                  drawerEnabled = false;
                   colorizeIcons = true;
+                  drawerEnabled = false;
                 }
                 {
                   id = "Network";
@@ -57,79 +110,19 @@
                   id = "Brightness";
                 }
                 {
-                  alwaysShowPercentage = false;
                   id = "Battery";
+                  alwaysShowPercentage = true;
                   warningThreshold = 30;
                 }
                 {
+                  id = "Clock";
                   formatHorizontal = "HH:mm";
                   formatVertical = "MMM dd - HH mm";
-                  id = "Clock";
                   useMonospacedFont = true;
                   usePrimaryColor = true;
                 }
               ];
             };
-          };
-          screenOverrides = [
-            {
-              enabled = true;
-              density = "mini";
-              name = "DP-2";
-              position = "bottom";
-              widgets = {
-                left = [
-                  {
-                    id = "Workspace";
-                  }
-                ];
-                center = [
-                  {
-                    id = "MediaMini";
-                    maxWidth = "1000";
-                  }
-                ];
-                right = [
-                  {
-                    id = "Clock";
-                  }
-                ];
-              };
-            }
-          ];
-          ui = {
-            fontDefault = lib.mkForce "JetBrainsMono Nerd Font";
-            fontFixed = "JetBrainsMono Nerd Font";
-          };
-          dock = {
-            enabled = false;
-          };
-          wallpaper = {
-            directory = "${config.home.homeDirectory}/nixconf/assets/wallpapers";
-          };
-          appLauncher = {
-            terminalCommand = "foot -e";
-            enableClipboardHistory = true;
-          };
-          nightLight = {
-            enabled = true;
-            autoSchedule = false;
-            nightTemp = "3500";
-            manualSunset = "22:00";
-            manualSunrise = "06:30";
-          };
-          brightness = {
-            enableDdcSupport = true;
-          };
-          colorSchemes = {
-            predefinedScheme = "Catppuccin";
-          };
-          audio = {
-            cavaFrameRate = "165";
-            visualizerType = "mirrored";
-          };
-          osd = {
-            location = "top";
           };
         };
       };

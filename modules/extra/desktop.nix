@@ -126,13 +126,14 @@
       wayland.windowManager.hyprland = {
         enable = true;
         package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+        settings = { };
+        systemd.enable = true;
+
         portalPackage =
           inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
         plugins = [
           inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
         ];
-        settings = { };
-        systemd.enable = true;
       };
 
       xdg.configFile."hypr/hyprland.lua".text = ''
@@ -145,8 +146,35 @@
         hl.monitor({ output = "LVDS-1", mode = "1920x1080@60.0",  position = "0x0",   scale = 1.0 })
         hl.monitor({ output = "",     mode = "preferred",        position = "auto",     scale = "auto" })
 
+        -- Workspaces 1–5 pinned to DP-1, using master layout
         for i = 1, 9 do
-            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1", layout = "master" })
+          hl.workspace_rule({
+            workspace = tostring(i),
+            monitor   = "DP-1",
+            layout    = "master",
+            persistent = true,
+            default   = (i == 1),
+          })
+        end
+
+        -- Pin workspaces 10–19 to your second monitor
+        for i = 10, 19 do
+          hl.workspace_rule({
+            workspace  = tostring(i),
+            monitor    = "DP-2",
+            persistent = true,
+            default    = (i == 10),
+          })
+        end
+
+        -- Pin workspaces 20-29 to your second monitor
+        for i = 20, 29 do
+          hl.workspace_rule({
+            workspace  = tostring(i),
+            monitor    = "DP-3",
+            persistent = true,
+            default    = (i == 20),
+          })
         end
 
         -- ==================
