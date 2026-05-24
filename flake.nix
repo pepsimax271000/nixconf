@@ -6,6 +6,7 @@
     import-tree.url = "github:vic/import-tree";
     hyprland.url = "github:hyprwm/Hyprland";
     catppuccin.url = "github:catppuccin/nix";
+    nixvim.url = "github:nix-community/nixvim";
 
     mangowm = {
       url = "github:mangowm/mango";
@@ -24,11 +25,6 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixvim = {
-      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

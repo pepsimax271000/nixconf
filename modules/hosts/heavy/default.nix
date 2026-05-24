@@ -10,7 +10,7 @@
       {
         home-manager.users.ye.imports = with self.homeModules; [
           profileDesktop
-          mangowm
+          #mangowm
         ];
       }
     ];

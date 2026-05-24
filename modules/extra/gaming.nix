@@ -19,8 +19,6 @@
       };
       hardware.steam-hardware.enable = true;
       environment.systemPackages = with pkgs; [
-        libxtst # for mcsr mod
-        libxinerama
         waywall
         zulu
         steamtinkerlaunch
