@@ -6,6 +6,7 @@
       imports = with self.nixosModules; [
         base
         shell
+        git
         homelabConfig
       ];
 
