@@ -14,7 +14,6 @@
       unbound
       unifi
       uptime-kuma
-      speedtest-tracker
       vaultwarden
 
       homepageServices
