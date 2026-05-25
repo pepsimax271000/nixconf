@@ -4,9 +4,10 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        jellyfin-tui
-        imv
         ffmpeg
+        imv
+        jellyfin-media-player
+        jellyfin-tui
       ];
 
       programs = {

@@ -14,7 +14,9 @@
       unbound
       unifi
       uptime-kuma
+      speedtest-tracker
       vaultwarden
+
       homepageServices
       caddyVhosts
       shareUser

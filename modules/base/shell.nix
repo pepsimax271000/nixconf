@@ -42,6 +42,14 @@
           enable = true;
           enableFishIntegration = true;
           shellWrapperName = "y";
+          theme = {
+            indicator = {
+              padding = {
+                open = "▐";
+                close = "▌";
+              };
+            };
+          };
           settings = {
             manager = {
               linemode = "size";
