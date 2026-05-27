@@ -11,6 +11,7 @@ in
     in
     {
       stylix.targets.glance.enable = false;
+
       services."${service}" = {
         enable = true;
         openFirewall = true;
@@ -274,6 +275,22 @@ in
                           url = "https://unifi.${hl.domain}";
                           icon = "sh:ubiquiti-unifi";
                         }
+                        {
+                          title = "OPNSense";
+                          url = "https://opnsense.${hl.domain}";
+                          icon = "sh:opnsense";
+                        }
+                        {
+                          title = "Proxmox";
+                          url = "https://proxmox.${hl.domain}";
+                          icon = "sh:proxmox";
+                        }
+                        {
+                          title = "Proxmox 2";
+                          url = "https://proxmox2.${hl.domain}";
+                          icon = "sh:proxmox";
+
+                        }
                       ];
                     }
                   ];
@@ -296,22 +313,42 @@ in
                       ];
                     }
                     {
-                      type = "dns-stats";
-                      service = "adguard";
-                      url = "https://adguard.${hl.domain}";
-                      username = "adam";
-                      password = "${config.sops.secrets.password.path}";
-                    }
-                    {
                       type = "releases";
+                      show-source-icon = true;
                       repositories = [
                         "nixos/nixpkgs"
                         "jellyfin/jellyfin"
                         "immich-app/immich"
                         "slskd/slskd"
                         "home-assistant/core"
-                        "glaneapp/glance"
+                        "glanceapp/glance"
                       ];
+                    }
+                    {
+                      type = "custom-api";
+                      title = "Immich Stats";
+                      cache = "1d";
+                      url = "https://immich.${hl.domain}";
+                      headers = {
+                        x-api-key = "placeholder";
+                        Accept = "application/json";
+                      };
+                      template = ''
+                        <div class="flex justify-between text-center">
+                          <div>
+                              <div class="color-highlight size-h3">{{ .JSON.Int "photos" | formatNumber }}</div>
+                              <div class="size-h6">PHOTOS</div>
+                          </div>
+                          <div>
+                              <div class="color-highlight size-h3">{{ .JSON.Int "videos" | formatNumber }}</div>
+                              <div class="size-h6">VIDEOS</div>
+                          </div>
+                          <div>
+                              <div class="color-highlight size-h3">{{ div (.JSON.Int "usage" | toFloat) 1073741824 | toInt | formatNumber }}GB</div>
+                              <div class="size-h6">USAGE</div>
+                          </div>
+                        </div>
+                      '';
                     }
                   ];
                 }
