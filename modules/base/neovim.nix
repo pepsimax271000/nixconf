@@ -34,8 +34,8 @@
           smartcase = true;
 
           termguicolors = true;
-          showmode = false; # lualine handles this
-          laststatus = 3; # global statusline
+          showmode = false;
+          laststatus = 3;
           splitbelow = true;
           splitright = true;
 
@@ -45,7 +45,7 @@
           updatetime = 250;
           timeoutlen = 300;
 
-          fillchars.__raw = ''{ eob = " " }''; # hide ~ at end of buffer
+          fillchars.__raw = ''{ eob = " " }'';
         };
 
         globals = {
@@ -239,7 +239,7 @@
             options.desc = "Focus file tree";
           }
 
-          # telescope
+          # telescope — general
           {
             mode = "n";
             key = "<leader>ff";
@@ -289,7 +289,75 @@
             options.desc = "Document symbols";
           }
 
-          # LSP (also set in lsp.onAttach)
+          # telekasten — notes
+          {
+            mode = "n";
+            key = "<leader>nf";
+            action = "<cmd>Telekasten find_notes<cr>";
+            options.desc = "Find notes";
+          }
+          {
+            mode = "n";
+            key = "<leader>ng";
+            action = "<cmd>Telekasten search_notes<cr>";
+            options.desc = "Grep notes";
+          }
+          {
+            mode = "n";
+            key = "<leader>nn";
+            action = "<cmd>Telekasten new_note<cr>";
+            options.desc = "New note";
+          }
+          {
+            mode = "n";
+            key = "<leader>nd";
+            action = "<cmd>Telekasten goto_today<cr>";
+            options.desc = "Today's daily note";
+          }
+          {
+            mode = "n";
+            key = "<leader>nj";
+            action = "<cmd>Telekasten find_daily_notes<cr>";
+            options.desc = "Find daily notes";
+          }
+          {
+            mode = "n";
+            key = "<leader>nt";
+            action = "<cmd>Telekasten show_tags<cr>";
+            options.desc = "Show tags";
+          }
+          {
+            mode = "n";
+            key = "<leader>nb";
+            action = "<cmd>Telekasten show_backlinks<cr>";
+            options.desc = "Show backlinks";
+          }
+          {
+            mode = "n";
+            key = "<leader>nl";
+            action = "<cmd>Telekasten insert_link<cr>";
+            options.desc = "Insert link";
+          }
+          {
+            mode = "n";
+            key = "<leader>nF";
+            action = "<cmd>Telekasten find_friends<cr>";
+            options.desc = "Find linked notes";
+          }
+          {
+            mode = "n";
+            key = "<leader>nc";
+            action = "<cmd>Telekasten show_calendar<cr>";
+            options.desc = "Calendar";
+          }
+          {
+            mode = "n";
+            key = "<leader>np";
+            action = "<cmd>Telekasten panel<cr>";
+            options.desc = "Telekasten panel";
+          }
+
+          # LSP
           {
             mode = "n";
             key = "gd";
@@ -668,10 +736,30 @@
                     }
                     {
                       type = "button";
+                      val = "  Notes";
+                      on_press.__raw = "function() require('telekasten').find_notes() end";
+                      opts = {
+                        shortcut = "n";
+                        position = "center";
+                        hl = "AlphaButtons";
+                      };
+                    }
+                    {
+                      type = "button";
+                      val = "  Today's note";
+                      on_press.__raw = "function() require('telekasten').goto_today() end";
+                      opts = {
+                        shortcut = "d";
+                        position = "center";
+                        hl = "AlphaButtons";
+                      };
+                    }
+                    {
+                      type = "button";
                       val = "  New file";
                       on_press.__raw = "function() vim.cmd('enew') end";
                       opts = {
-                        shortcut = "n";
+                        shortcut = "e";
                         position = "center";
                         hl = "AlphaButtons";
                       };
@@ -783,6 +871,10 @@
                 __unkeyed = "<leader>t";
                 group = "tab";
               }
+              {
+                __unkeyed = "<leader>n";
+                group = "notes";
+              } # ← telekasten
             ];
           };
           noice = {
@@ -841,15 +933,17 @@
           black
           ripgrep
           fd
-          gcc # treesitter needs a C compiler
+          gcc
         ];
 
         extraPlugins = with pkgs.vimPlugins; [
           catppuccin-nvim
+          telekasten-nvim # telekasten
+          calendar-vim # calendar view used by telekasten
         ];
 
         extraConfigLua = ''
-          -- Diagnostic signs
+          -- ── Diagnostic signs ──────────────────────────────────────────────────
           vim.diagnostic.config({
             virtual_text     = { prefix = "●" },
             signs            = true,
@@ -858,11 +952,11 @@
             severity_sort    = true,
             float = {
               focusable = false,
-              style     = "minimal",
-              border    = "rounded",
-              source    = "always",
-              header    = "",
-              prefix    = "",
+              style      = "minimal",
+              border     = "rounded",
+              source     = "always",
+              header     = "",
+              prefix     = "",
             },
           })
 
@@ -870,14 +964,110 @@
           vim.lsp.handlers["textDocument/hover"]         = vim.lsp.with(vim.lsp.handlers.hover,          { border = "rounded" })
           vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
-          -- Harpoon keymaps
+          -- ── Harpoon ───────────────────────────────────────────────────────────
           local harpoon = require("harpoon")
-          vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end,                        { desc = "Harpoon add" })
+          vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end,                         { desc = "Harpoon add" })
           vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon menu" })
-          vim.keymap.set("n", "<leader>1",  function() harpoon:list():select(1) end,                    { desc = "Harpoon 1" })
-          vim.keymap.set("n", "<leader>2",  function() harpoon:list():select(2) end,                    { desc = "Harpoon 2" })
-          vim.keymap.set("n", "<leader>3",  function() harpoon:list():select(3) end,                    { desc = "Harpoon 3" })
-          vim.keymap.set("n", "<leader>4",  function() harpoon:list():select(4) end,                    { desc = "Harpoon 4" })
+          vim.keymap.set("n", "<leader>1",  function() harpoon:list():select(1) end,                     { desc = "Harpoon 1" })
+          vim.keymap.set("n", "<leader>2",  function() harpoon:list():select(2) end,                     { desc = "Harpoon 2" })
+          vim.keymap.set("n", "<leader>3",  function() harpoon:list():select(3) end,                     { desc = "Harpoon 3" })
+          vim.keymap.set("n", "<leader>4",  function() harpoon:list():select(4) end,                     { desc = "Harpoon 4" })
+
+          -- ── Telekasten ────────────────────────────────────────────────────────
+          -- Notes live at ~/notes. Subdirs:
+          --   ~/notes/       ← main notes
+          --   ~/notes/daily/ ← daily journal notes
+          --   ~/notes/templates/ ← note templates
+          local home = vim.fn.expand("~")
+
+          require("telekasten").setup({
+            home         = home .. "/Documents/Notes",
+            dailies      = home .. "/Documents/Notes/daily",
+            weeklies     = home .. "/Documents/Notes/weekly",
+            templates    = home .. "/Documents/Notes/templates",
+
+            -- Use telescope for all pickers
+            extension    = ".md",
+            new_note_filename = "title",
+
+            -- Follow [[WikiLinks]] with Enter in normal mode
+            follow_creates_nonexisting = true,
+
+            -- Calendar integration
+            plug_into_calendar = true,
+            calendar_opts = {
+              weeknm = 4,
+              calendar_monday = 1,
+              calendar_highlight_today = 1,
+            },
+
+            -- Template for new notes
+            template_new_note    = home .. "/Documents/Notes/templates/note.md",
+            template_new_daily   = home .. "/Documents/Notes/templates/daily.md",
+            template_new_weekly  = home .. "/Documents/Notes/templates/weekly.md",
+
+            -- Telescope settings
+            telescope_sorter = function()
+              return require("telescope").extensions.fzf.native_fzf_sorter()
+            end,
+
+            -- Media / image support
+            media_previewer = "telescope-media-files",
+
+            -- Tag notation: #tag
+            tag_notation = "#tag",
+
+            -- Close after following a link
+            close_after_yanking = false,
+            insert_after_inserting = true,
+          })
+
+          -- In insert mode inside a note, <C-l> inserts a [[link]]
+          vim.keymap.set("i", "<C-l>", "<cmd>Telekasten insert_link<cr>", { desc = "Insert link" })
+
+          -- Make sure the notes directory and subdirs exist
+          vim.fn.mkdir(home .. "/Documents/Notes/daily",     "p")
+          vim.fn.mkdir(home .. "/Documents/Notes/weekly",    "p")
+          vim.fn.mkdir(home .. "/Documents/Notes/templates", "p")
+
+          -- Default templates (written once if they don't exist)
+          local function write_if_missing(path, content)
+            if vim.fn.filereadable(path) == 0 then
+              local f = io.open(path, "w")
+              if f then f:write(content) f:close() end
+            end
+          end
+
+          write_if_missing(home .. "/Documents/Notes/templates/note.md", [[
+          # {{title}}
+
+          tags: 
+
+          ---
+
+          ]])
+
+          write_if_missing(home .. "/Documents/Notes/templates/daily.md", [[
+          # {{date}}
+
+          ## Tasks
+          - [ ] 
+
+          ## Notes
+
+          ## Journal
+
+          ]])
+
+          write_if_missing(home .. "/Documents/Notes/templates/weekly.md", [[
+          # Week {{week}}, {{year}}
+
+          ## Goals
+          - [ ] 
+
+          ## Review
+
+          ]])
         '';
       };
     };
