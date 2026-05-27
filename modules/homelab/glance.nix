@@ -180,6 +180,24 @@ in
                   size = "full";
                   widgets = [
                     {
+                      type = "search";
+                      autofocus = true;
+                    }
+                    {
+                      type = "server-stats";
+                      servers = [
+                        {
+                          type = "local";
+                          name = "chell";
+                          mountpoints = {
+                            "/" = {
+                              name = "Root";
+                            };
+                          };
+                        }
+                      ];
+                    }
+                    {
                       type = "monitor";
                       title = "Media";
                       sites = [
@@ -298,20 +316,6 @@ in
                 {
                   size = "small";
                   widgets = [
-                    {
-                      type = "server-stats";
-                      servers = [
-                        {
-                          type = "local";
-                          name = "chell";
-                          mountpoints = {
-                            "/" = {
-                              name = "Root";
-                            };
-                          };
-                        }
-                      ];
-                    }
                     {
                       type = "releases";
                       show-source-icon = true;
