@@ -17,6 +17,7 @@ in
           8082
         ];
       };
+
       services.homepage-dashboard = {
         enable = true;
         allowedHosts = "*,${service}.${hl.domain},10.1.10.54:8082";

@@ -13,11 +13,21 @@ in
         "d ${hl.storageDir}/Notes 0775 ${hl.user} ${hl.group} - -"
       ];
 
+      networking.firewall = {
+        allowedUDPPorts = [
+          8384
+        ];
+        allowedTCPPorts = [
+          8384
+        ];
+      };
+
       services.syncthing = {
         enable = true;
         user = hl.user;
         dataDir = "${hl.storageDir}/Notes";
-        configDir = "${hl.configDir}/${service}";
+        configDir = "${hl.appdataDir}/${service}";
+        guiAddress = "10.1.10.3:8384";
         openDefaultPorts = true;
 
         settings = {
@@ -27,25 +37,10 @@ in
             urAccepted = -1;
           };
 
-          devices = {
-            desktop = {
-              id = "XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX";
-              name = "Desktop";
-            };
-            phone = {
-              id = "YYYYYYY-YYYYYYY-YYYYYYY-YYYYYYY-YYYYYYY-YYYYYYY-YYYYYYY-YYYYYYY";
-              name = "Phone";
-            };
-          };
-
           folders = {
             notes = {
               path = "${hl.storageDir}/Notes";
               label = "Notes";
-              devices = [
-                "desktop"
-                "phone"
-              ];
               versioning = {
                 type = "trashcan";
                 params.cleanoutDays = "30";
