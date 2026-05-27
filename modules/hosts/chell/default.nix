@@ -9,6 +9,7 @@
     modules = with self.nixosModules; [
       adguardhome
       caddy
+      glance
       homeassistant
       homepage
       unbound
