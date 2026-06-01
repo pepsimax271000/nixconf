@@ -13,11 +13,11 @@
         base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         polarity = "dark";
         opacity.terminal = 0.9;
-        #cursor = {
-        #  package = pkgs.catppuccin-cursors.mochaBlue;
-        #  name = "catppuccin-mocha-blue-cursors";
-        #  size = 24;
-        #};
+        cursor = {
+          package = pkgs.catppuccin-cursors.mochaBlue;
+          name = "catppuccin-mocha-blue-cursors";
+          size = 24;
+        };
         #### Commented because it pulls in inkscape, which compiles from source for whatever reason
         fonts = {
           sizes.terminal = 11.25;

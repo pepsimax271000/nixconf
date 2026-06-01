@@ -13,7 +13,7 @@
     };
     wallpaper = mkOption {
       type = types.path;
-      default = ../../assets/wallpapers/nix-black-4k.png;
+      default = ../../assets/wallpapers/nix-black_hr.png;
     };
   };
 

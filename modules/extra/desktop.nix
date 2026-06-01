@@ -110,11 +110,6 @@
           screenshot
           toggle-monitor-mode
         ];
-        pointerCursor = {
-          package = pkgs.bibata-cursors-translucent;
-          name = "Bibata Tinted";
-          size = 24;
-        };
       };
 
       gtk.iconTheme = {
