@@ -29,6 +29,7 @@ in
             LegalNotice.Accepted = true;
             BitTorrent = {
               Session = {
+                Port = "50000";
                 GlobalUPSpeedLimit = "9000";
                 MaxActiveDownloads = "10";
                 MaxActiveTorrents = "20";
@@ -36,7 +37,8 @@ in
                 MaxConnections = "800";
                 MaxConnectionsPerTorrent = "200";
                 MaxUploadsPerTorrent = "30";
-                uTPRateLimited = false;
+                QueueingSystemEnabled = false;
+                uTPRateLimited = true;
               };
             };
             Preferences = {
