@@ -27,6 +27,7 @@
       gladosHardware
       gladosDisko
       homeManager
+      inputs.nix-topology.nixosModules.default
       {
         home-manager.users.ye.imports = with self.homeModules; [
           neovim
@@ -39,6 +40,11 @@
   flake.nixosModules.gladosConfiguration =
     { pkgs, ... }:
     {
+      topology.self = {
+        name = "Glados";
+        hardware.info = "2U Main media and storage server";
+      };
+
       networking.hostName = "glados";
 
       environment.systemPackages = with pkgs; [

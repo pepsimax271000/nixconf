@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.unit-00Hardware =
+  flake.nixosModules.unit-01Hardware =
     {
       config,
       lib,

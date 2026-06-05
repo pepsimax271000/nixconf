@@ -13,6 +13,7 @@
       atlasHardware
       atlasDisko
       homeManager
+      inputs.nix-topology.nixosModules.default
       {
         home-manager.users.ye.imports = with self.homeModules; [
           profileDesktop
@@ -26,7 +27,13 @@
   flake.nixosModules.atlasConfiguration =
     { pkgs, ... }:
     {
+      topology.self = {
+        name = "Atlas";
+        hardware.info = "Main Ryzen 5800x Desktop";
+      };
+
       networking.hostName = "atlas";
+
       powerManagement.cpuFreqGovernor = "performance";
 
       boot = {

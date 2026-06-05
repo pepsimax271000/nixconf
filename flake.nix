@@ -8,6 +8,11 @@
     catppuccin.url = "github:catppuccin/nix";
     nixvim.url = "github:nix-community/nixvim";
 
+    nix-topology = {
+      url = "github:oddlama/nix-topology";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

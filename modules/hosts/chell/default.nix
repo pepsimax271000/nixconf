@@ -28,6 +28,8 @@
       chellHardware
       chellDisko
       homeManager
+
+      inputs.nix-topology.nixosModules.default
       {
         home-manager.users.ye.imports = with self.homeModules; [
           neovim
@@ -40,7 +42,13 @@
   flake.nixosModules.chellConfiguration =
     { pkgs, ... }:
     {
+      topology.self = {
+        name = "Chell";
+        hardware.info = "Mini secondary network and essential server";
+      };
+
       networking.hostName = "chell";
+
       services = {
         openssh.enable = true;
         resolved.settings.Resolve = lib.mkForce {
