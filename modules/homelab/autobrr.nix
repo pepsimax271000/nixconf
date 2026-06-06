@@ -22,6 +22,10 @@ in
       services = {
         ${service} = {
           enable = true;
+          secretFile = config.sops.secrets.autobrr.path;
+          settings = {
+            host = "0.0.0.0";
+          };
         };
       };
     };
