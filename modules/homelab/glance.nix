@@ -232,6 +232,11 @@ in
                           icon = "sh:prowlarr";
                         }
                         {
+                          title = "Autobrr";
+                          url = "https://autobrr.${hl.domain}";
+                          icon = "sh:autobrr";
+                        }
+                        {
                           title = "qBittorrent";
                           url = "https://qbittorrent.${hl.domain}";
                           icon = "sh:qbittorrent";

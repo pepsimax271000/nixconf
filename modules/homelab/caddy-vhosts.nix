@@ -62,6 +62,12 @@
             reverse_proxy "${glados}:8989"
           '';
         };
+        "autobrr.${hl.domain}" = {
+          useACMEHost = hl.domain;
+          extraConfig = ''
+            reverse_proxy "http://10.1.10.234:7474"
+          '';
+        };
         "opnsense.${hl.domain}" = {
           useACMEHost = hl.domain;
           extraConfig = ''
