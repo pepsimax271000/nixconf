@@ -2,6 +2,8 @@
 {
   flake.nixosConfigurations.seedbox = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
+      autobrr
+      qbittorrent
       shareUser
 
       profileServer
@@ -9,6 +11,7 @@
       seedboxConfiguration
       seedboxHardware
       seedboxDisko
+      seedboxDrives
       homeManager
       {
         home-manager.users.ye.imports = with self.homeModules; [
