@@ -338,7 +338,7 @@ in
                         "jellyfin/jellyfin"
                         "immich-app/immich"
                         "seerr-team/seerr"
-                        "hadarr/radarr"
+                        "radarr/radarr"
                         "sonarr/sonarr"
                         "prowlarr/prowlarr"
                         "qbittorrent/qbittorrent"
