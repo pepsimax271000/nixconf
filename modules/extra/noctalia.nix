@@ -17,6 +17,7 @@
             builtin = "Catppuccin";
           };
           shell = {
+            avatar_path = "${config.home.homeDirectory}/nixconf/assets/pfp.jpg";
             font_family = "JetBrainsMono NF";
           };
           ui = {
