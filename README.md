@@ -4,8 +4,8 @@
 
 | Host    | Description        |
 | ------- | ------------------ |
+| daru    | ThinkPad W520      |
 | glados  | i5-12500 NAS       |
-| heavy   | ThinkPad W520      |
 | kurisu  | ThinkCentre M93p   |
 | mayuri  | Ryzen Main Desktop |
 | unit-00 | ThinkPad X230 #1   |

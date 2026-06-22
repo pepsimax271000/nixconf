@@ -1,28 +1,24 @@
 keys:
-  - &atlas_user age1x5mapzr2pcswvela9nmdah6uzrv4csthupk2vkslwjpne32m6d3syp9nst
-  - &atlas_host age13wzrwf8apqz9qr0rrtr4wkc7pw3yzj73znjwsy2dnkzmamu2xqts5s8869
-  - &heavy_user age178f7dvqqr4r2k06fj3u5lrmg4n4qzu5u2q03vwjes42n5dajnaeshxnn69
-  - &heavy_host age1lakwj5gtc8sjksshhy850eqeh4ac7gkp39xecqhngaldr5xj7ayqvz6yj3
-  - &beast_user age1df073aud9a2y8rukr553cln9a75cfw30nh4czytaemjgsmnuh3sszktve0
-  - &beast_host age14002ye36h029nh99wqwv8j7kacydsscplf6mkl6mmfgm6lyxlsys88jhvt
-  - &vm_host age1jufye77tt63gpjuuurmuzd3vzvmfj4gve25d9dnnfum5zncas37qftkhfh
-  - &chell_host age1szzurdrppevemlyc5zaydewskwhfcmndf7g0jmd7an3gds8qtvwq9p2q6t
-  - &unit-00_host age14r4q0ucn96jhq6j3ykpntwgrzxwvzn3ak2wrmsxeesuuf99ut3ase3ktke
+  - &daru_host age1lakwj5gtc8sjksshhy850eqeh4ac7gkp39xecqhngaldr5xj7ayqvz6yj3
+  - &daru_user age178f7dvqqr4r2k06fj3u5lrmg4n4qzu5u2q03vwjes42n5dajnaeshxnn69
   - &glados_host age1kglyf3c43cxkkw26lvltp9ra2q3vlnl66ys8hzw55vdwsnux6qsq2dsj0f
+  - &kurisu_host age1szzurdrppevemlyc5zaydewskwhfcmndf7g0jmd7an3gds8qtvwq9p2q6t
+  - &mayuri_host age13wzrwf8apqz9qr0rrtr4wkc7pw3yzj73znjwsy2dnkzmamu2xqts5s8869
+  - &mayuri_user age1x5mapzr2pcswvela9nmdah6uzrv4csthupk2vkslwjpne32m6d3syp9nst
   - &seedbox_host age1yakkpxmvqp0vjdjtfn8kk3ea2tvnwe5pwepa2pdys3u3wljjh4jq9fup44
+  - &unit-00_host age14r4q0ucn96jhq6j3ykpntwgrzxwvzn3ak2wrmsxeesuuf99ut3ase3ktke
+  - &vm_host age1jufye77tt63gpjuuurmuzd3vzvmfj4gve25d9dnnfum5zncas37qftkhfh
 
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$
     key_groups:
         - age:
-            - *atlas_user
-            - *atlas_host
-            - *heavy_user
-            - *heavy_host
-            - *beast_user
-            - *beast_host
-            - *vm_host
-            - *chell_host
-            - *unit-00_host
+            - *daru_host
+            - *daru_user
             - *glados_host
+            - *kurisu_host
+            - *mayuri_host
+            - *mayuri_user
             - *seedbox_host
+            - *unit-00_host
+            - *vm_host
