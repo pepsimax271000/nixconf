@@ -71,7 +71,10 @@
           };
           password_plaintext = {
           };
-          cloudflare_api = {
+          tjd-lol_api = {
+            sopsFile = ../../secrets/homelab.yaml;
+          };
+          elpsy-moe_api = {
             sopsFile = ../../secrets/homelab.yaml;
           };
           cloudflare_email = {
