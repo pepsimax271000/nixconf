@@ -116,9 +116,12 @@
         };
       };
 
-      networking.networkmanager = {
-        enable = true;
-        dns = "systemd-resolved";
+      networking = {
+        domain = "elpsy.moe";
+        networkmanager = {
+          enable = true;
+          dns = "systemd-resolved";
+        };
       };
 
       time.timeZone = config.my.timezone;
