@@ -310,8 +310,7 @@
         settings = { };
         systemd.enable = true;
 
-        portalPackage =
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+        portalPackage = pkgs.xdg-desktop-portal-hyprland;
       };
 
       xdg.configFile."hypr/hyprland.lua".text = ''
@@ -357,8 +356,8 @@
           },
           general = {
             layout = "dwindle";
-            gaps_in   = 5,
-            gaps_out  = 10,
+            gaps_in   = 10,
+            gaps_out  = 15,
             border_size = 3,
             ["col.active_border"]   = "rgb(${config.lib.stylix.colors.base0D})",
             ["col.inactive_border"] = "rgb(${config.lib.stylix.colors.base01})",
