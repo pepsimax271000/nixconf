@@ -60,14 +60,6 @@
             rocmPackages.clr.icd
             mesa-demos
 
-            gst_all_1.gstreamer
-            gst_all_1.gst-plugins-base
-            gst_all_1.gst-plugins-good
-            gst_all_1.gst-plugins-bad
-            gst_all_1.gst-plugins-ugly
-            gst_all_1.gst-libav
-            gst_all_1.gst-vaapi
-
             ffmpeg-full
             libva
             libva-utils
@@ -75,12 +67,6 @@
             libvdpau-va-gl
           ];
           extraPackages32 = with pkgs.pkgsi686Linux; [
-            gst_all_1.gstreamer
-            gst_all_1.gst-plugins-base
-            gst_all_1.gst-plugins-good
-            gst_all_1.gst-plugins-bad
-            gst_all_1.gst-plugins-ugly
-            gst_all_1.gst-libav
             libva
           ];
         };
