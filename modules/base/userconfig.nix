@@ -19,8 +19,8 @@
 
   config.my = {
     username = "ye";
-    gitEmail = "248238336+pepsimax271000@users.noreply.github.com";
-    gitName = "pepsimax271000";
+    gitEmail = "248238336+imadam2@users.noreply.github.com";
+    gitName = "imadam2";
     homeDir = "/home/ye";
     timezone = "Europe/Belfast";
     locale = "en_GB.UTF-8";
