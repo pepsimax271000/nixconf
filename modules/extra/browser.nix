@@ -54,20 +54,14 @@
           pins = {
             "Glance" = {
               url = "https://glance.elpsy.moe";
-              id = "9d8a8f91-7e29-4688-ae2e-da4e49d4a179";
+              id = "487332d8-5eeb-4b21-a89c-b52d4b0af516";
               position = 101;
-              isEssential = true;
-            };
-            "X" = {
-              url = "https://x.com";
-              id = "9d8a8f91-7e29-4688-ae2e-da4e49d4a179";
-              position = 102;
               isEssential = true;
             };
             "YouTube" = {
               url = "https://youtube.com";
-              id = "9d8a8f91-7e29-4688-ae2e-da4e49d4a179";
-              position = 103;
+              id = "ca0dd4a8-6722-4476-a0c5-5798a105500f";
+              position = 102;
               isEssential = true;
             };
           };
